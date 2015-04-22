@@ -1,0 +1,26 @@
+#BlueJ class context
+comment0.params=
+comment0.target=NotePadeDD()
+comment1.params=e
+comment1.target=void\ actionPerformed(java.awt.event.ActionEvent)
+comment10.params=e
+comment10.target=void\ actionPerformed(java.awt.event.ActionEvent)
+comment11.params=args
+comment11.target=void\ main(java.lang.String[])
+comment2.params=arg0
+comment2.target=void\ actionPerformed(java.awt.event.ActionEvent)
+comment3.params=arg0
+comment3.target=void\ actionPerformed(java.awt.event.ActionEvent)
+comment4.params=e
+comment4.target=void\ actionPerformed(java.awt.event.ActionEvent)
+comment5.params=e
+comment5.target=void\ actionPerformed(java.awt.event.ActionEvent)
+comment6.params=e
+comment6.target=void\ actionPerformed(java.awt.event.ActionEvent)
+comment7.params=ae
+comment7.target=void\ actionPerformed(java.awt.event.ActionEvent)
+comment8.params=ae
+comment8.target=void\ actionPerformed(java.awt.event.ActionEvent)
+comment9.params=ae
+comment9.target=void\ actionPerformed(java.awt.event.ActionEvent)
+numComments=12

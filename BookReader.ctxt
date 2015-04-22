@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.params=parent
+comment0.target=BookReader(java.awt.Frame)
+comment1.params=
+comment1.target=void\ readBook()
+comment2.params=callback
+comment2.target=void\ setCallback(BookReader.BookReaderCallback)
+numComments=3
