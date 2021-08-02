@@ -1,0 +1,17 @@
+Cisco***_ISE_PSN_CL | extend  TimeStamp = extract( "(\w+\s\d{2}\s\d{2}:\d{2}:\d{2}) (.*)",1,
+    RawData) | extend  HostName = extract( "(\w+\s\d{2}\s\d{2}:\d{2}:\d{2}) (\S+) (.*)",2,RawData) | extend  
+    ISE_Type = extract( "(\w+\s\d{2}\s\d{2}:\d{2}:\d{2}) (\S+) (\S+) (.*)",3,RawData) | extend  SessionKey = 
+    extract( "(\w+\s\d{2}\s\d{2}:\d{2}:\d{2}) (\S+) (\S+) (\d{10}) (.*)",4,RawData) | extend  TotalSegments 
+    = extract( "(\w+\s\d{2}\s\d{2}:\d{2}:\d{2}) (\S+) (\S+) (\d{10}) (\d{1,2}) (.*)",5,RawData) | extend  
+    SegmentNumber = extract( "(\w+\s\d{2}\s\d{2}:\d{2}:\d{2}) (\S+) (\S+) (\d{10}) (\d{1,2}) (\d{1,
+    2}) (.*)",6,RawData) | extend  Remainder = extract( "(\w+\s\d{2}\s\d{2}:\d{2}:\d{2}) (\S+) (\S+) (\d{
+    10}) (\d{1,2}) (\d{1,2}) (.*)",7,RawData) | extend  TimeStamp2 = extract( "(\d{4}-\d{2}-\d{2}\s\d{2}:\d{
+    2}:\d{2}.\d{3}) (.*)",1,Remainder) | extend  SessionKey2 = extract( "(\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{
+    2}.\d{3}) (-\d{2}:\d{2}) (\d{10}) (.*)",3,Remainder) | extend  Segment2 = extract( "(\d{4}-\d{2}-\d{
+    2}\s\d{2}:\d{2}:\d{2}.\d{3}) (-\d{2}:\d{2}) (\d{10}) (\d{4}) (.*)",4,Remainder) | extend  Message = 
+    tostring(split(extract( "(\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}.\d{3}) (-\d{2}:\d{2}) (\d{10}) (\d{4}) 
+    (.*)",5,Remainder),',')[0]) | extend JsonProperies = extract_all(@"(?P<key>[a-zA-Z0-9- ]+)=(?P<value>[
+    a-zA-Z0-9-_:/@.#{};= ]+)", dynamic(["key","value"]), Remainder) | mv-apply JsonProperies on ( summarize 
+    JsonProperies = make_list(pack(tostring(JsonProperies[0]), JsonProperies[1])) ) | project TimeStamp, HostName, 
+    ISE_Type, SessionKey, TotalSegments, SegmentNumber, TimeStamp2,SessionKey2, Segment2, Message, Remainder, 
+    JsonProperies
