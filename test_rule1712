@@ -1,0 +1,20 @@
+rule EDR026_SUSPICIOUS_REGISTRY_CHANGES_02 {
+                      meta:
+                        author = "Dan Craven"
+                        description = "Monitoring for Key Registary Modifications"
+                        yara_version = "YL2.0"
+                        rule_version = "1.03"
+                    
+                        events: $key_modified.metadata.event_type = "REGISTRY_MODIFICATION" and ( 
+                        $key_modified.target.registry.registry_key = /SOFTWARE\Policies\Microsoft\Windows 
+                        Defender\DisableAntiSpyware/ nocase or ( // NameServers Reg Keys ( 
+                        $key_modified.target.registry.registry_key = /Services\Tcpip\Parameters\NameServer/ nocase 
+                        or $key_modified.target.registry.registry_key = /Services\Tcpip\Parameters\Interfaces\\{
+                        \w+(-\w+)+\}\NameServer/ nocase ) and not ( $key_modified.principal.process.file.full_path = 
+                        "C:\Program Files\Palo Alto Networks\GlobalProtect\PanGPS.exe" nocase or 
+                        $key_modified.principal.process.file.full_path = "C:\WINDOWS\System32\svchost.exe" nocase 
+                        ) ) // End NameServer Reg Keys or ( //MS OFFICE DDE Key 
+                        $key_modified.target.registry.registry_key = 
+                        /Microsoft\Office\\d+\.\d+\Word\Security\AllowDDE/ nocase and 
+                        $key_modified.target.registry.registry_value_data = /2/ ) ) // End of Keys which need be 
+                        scanned, not covered under different rules for file modification. condition: $key_modified } 
